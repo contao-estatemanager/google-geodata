@@ -15,6 +15,11 @@
       "name":"Daniele Sciannimanica",
       "homepage":"https://github.com/doishub",
       "role":"Developer"
+    },
+    {
+      "name":"Fabian Ekert",
+      "homepage":"https://github.com/eki89",
+      "role":"Developer"
     }
   ],
   "require":{
@@ -48,7 +53,7 @@
   },
   "extra":{
     "branch-main": {
-      "dev-master": "1.0.x-dev"
+      "dev-main": "1.0.x-dev"
     },
     "contao-manager-plugin": "ContaoEstateManager\\GoogleGeodata\\ContaoManager\\Plugin"
   }
