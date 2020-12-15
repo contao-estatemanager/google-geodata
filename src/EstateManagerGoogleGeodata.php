@@ -11,7 +11,6 @@
 declare(strict_types=1);
 
 
-
 namespace ContaoEstateManager\GoogleGeodata;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

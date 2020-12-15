@@ -20,8 +20,10 @@
   "require":{
     "php":">=7.1",
     "contao/core-bundle":"^4.4",
+    "contao-estatemanager/core": "^1.0.3",
     "contao-estatemanager/google-services": "^1.0",
-    "contao-estatemanager/core": "^1.0.3"
+    "ext-curl": "*",
+    "ext-json": "*"
   },
   "require-dev": {
     "contao/manager-plugin": "^2.0"
@@ -45,7 +47,7 @@
     ]
   },
   "extra":{
-    "branch-alias": {
+    "branch-main": {
       "dev-master": "1.0.x-dev"
     },
     "contao-manager-plugin": "ContaoEstateManager\\GoogleGeodata\\ContaoManager\\Plugin"
