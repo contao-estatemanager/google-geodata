@@ -52,7 +52,7 @@
     ]
   },
   "extra":{
-    "branch-main": {
+    "branch-alias": {
       "dev-main": "1.0.x-dev"
     },
     "contao-manager-plugin": "ContaoEstateManager\\GoogleGeodata\\ContaoManager\\Plugin"
