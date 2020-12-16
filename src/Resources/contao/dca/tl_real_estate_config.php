@@ -14,7 +14,7 @@ if(ContaoEstateManager\GoogleGeodata\AddonManager::valid()) {
     (
         'label'                   => &$GLOBALS['TL_LANG']['tl_real_estate_config']['storeGeoData'],
         'inputType'               => 'checkbox',
-        'eval'                    => array('tl_class'=>'w50')
+        'eval'                    => array('tl_class'=>'w50 m12')
     );
 
     // Extend default palette
