@@ -8,6 +8,5 @@
  * @license   https://www.contao-estatemanager.com/lizenzbedingungen.html
  */
 
-if(ContaoEstateManager\GoogleGeodata\AddonManager::valid()) {
-
-}
+// ESTATEMANAGER
+$GLOBALS['TL_ESTATEMANAGER_ADDONS'][] = array('ContaoEstateManager\GoogleGeodata', 'AddonManager');
