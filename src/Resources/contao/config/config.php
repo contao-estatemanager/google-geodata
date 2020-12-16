@@ -10,3 +10,8 @@
 
 // ESTATEMANAGER
 $GLOBALS['TL_ESTATEMANAGER_ADDONS'][] = array('ContaoEstateManager\GoogleGeodata', 'AddonManager');
+
+if(ContaoEstateManager\GoogleGeodata\AddonManager::valid()) {
+    // Hooks
+    $GLOBALS['TL_HOOKS']['beforeRealEstateImport'][] = array('ContaoEstateManager\GoogleGeodata\GeoData', 'setGeoData');
+}

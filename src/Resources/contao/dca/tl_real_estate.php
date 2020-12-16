@@ -24,12 +24,6 @@ class tl_real_estate_google_geodata extends Contao\Backend
      */
     public function storeGeoData($dc)
     {
-        // Return if not allowed
-        if (!Contao\Config::get('storeGeoData'))
-        {
-            return;
-        }
-
         // Front end call
         if (!$dc instanceof Contao\DataContainer)
         {
@@ -47,26 +41,12 @@ class tl_real_estate_google_geodata extends Contao\Backend
             return;
         }
 
-        if(($apiKey = Contao\Config::get('googleApiToken')) && $this->isAddressComplete($dc->activeRecord))
+        $objGeoData = new ContaoEstateManager\GoogleGeodata\GeoData();
+
+        if (($geoData = $objGeoData->determineGeoData($dc->activeRecord->strasse, $dc->activeRecord->hausnummer, $dc->activeRecord->plz, $dc->activeRecord->ort)) !== false)
         {
-            $strAddress = urlencode(sprintf('%s %s, %s %s', $dc->activeRecord->strasse, $dc->activeRecord->hausnummer, $dc->activeRecord->plz, $dc->activeRecord->ort));
-            $strUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $strAddress . '&key='.$apiKey;
-
-            $arrContent = json_decode($this->getFileContent($strUrl));
-
-            if ($arrContent && $arrContent->results && is_array($arrContent->results))
-            {
-                $breitengrad = $arrContent->results[0]->geometry->location->lat;
-                $laengengrad = $arrContent->results[0]->geometry->location->lng;
-
-                if (!is_numeric($breitengrad) || !is_numeric($laengengrad))
-                {
-                    return;
-                }
-
-                $this->Database->prepare("UPDATE tl_real_estate SET breitengrad=?, laengengrad=? WHERE id=?")
-                    ->execute($breitengrad, $laengengrad, $dc->activeRecord->id);
-            }
+            $this->Database->prepare("UPDATE tl_real_estate SET breitengrad=?, laengengrad=? WHERE id=?")
+                ->execute($geoData['breitengrad'], $geoData['laengengrad'], $dc->activeRecord->id);
         }
     }
 
