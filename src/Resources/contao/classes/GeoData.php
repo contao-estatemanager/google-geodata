@@ -33,7 +33,7 @@ class GeoData
         // Return if not possible or allowed
         if (!Config::get('googleApiToken') || !Config::get('storeGeoData'))
         {
-            return;
+            return false;
         }
 
         if (!$this->isAddressComplete($strasse, $hausnummer, $plz, $ort))
