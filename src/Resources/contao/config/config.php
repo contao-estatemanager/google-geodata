@@ -15,9 +15,10 @@ declare(strict_types=1);
 $GLOBALS['TL_ESTATEMANAGER_ADDONS'][] = ['ContaoEstateManager\GoogleGeodata', 'AddonManager'];
 
 use ContaoEstateManager\GoogleGeodata\AddonManager;
+use ContaoEstateManager\GoogleGeodata\GeoData;
 
 if (AddonManager::valid())
 {
     // Hooks
-    $GLOBALS['TL_HOOKS']['beforeRealEstateImport'][] = ['ContaoEstateManager\GoogleGeodata\GeoData', 'setGeoData'];
+    $GLOBALS['CEM_HOOKS']['beforeRealEstateImport'][] = [GeoData::class, 'setGeoData'];
 }
