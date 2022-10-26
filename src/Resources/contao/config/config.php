@@ -20,5 +20,5 @@ use ContaoEstateManager\GoogleGeodata\GeoData;
 if (AddonManager::valid())
 {
     // Hooks
-    $GLOBALS['CEM_HOOKS']['beforeRealEstateImport'][] = [GeoData::class, 'setGeoData'];
+    $GLOBALS['TL_HOOKS']['beforeRealEstateImport'][] = [GeoData::class, 'setGeoData'];
 }
