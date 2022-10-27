@@ -1,15 +1,24 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * This file is part of Contao EstateManager.
  *
- * @link      https://www.contao-estatemanager.com/
- * @source    https://github.com/contao-estatemanager
- * @copyright Copyright (c) 2019  Oveleon GbR (https://www.oveleon.de)
- * @license   https://www.contao-estatemanager.com/lizenzbedingungen.html
+ * @see        https://www.contao-estatemanager.com/
+ * @source     https://github.com/contao-estatemanager/google-geodata
+ * @copyright  Copyright (c) 2021 Oveleon GbR (https://www.oveleon.de)
+ * @license    https://www.contao-estatemanager.com/lizenzbedingungen.html
  */
 
-if(ContaoEstateManager\GoogleGeodata\AddonManager::valid()) {
-    $GLOBALS['TL_DCA']['tl_real_estate']['config']['onsubmit_callback'][] = array('tl_real_estate_google_geodata', 'storeGeoData');
+use Contao\Backend;
+use Contao\DataContainer;
+use ContaoEstateManager\GoogleGeodata\AddonManager;
+use ContaoEstateManager\GoogleGeodata\GeoData;
+
+if (AddonManager::valid())
+{
+    $GLOBALS['TL_DCA']['tl_real_estate']['config']['onsubmit_callback'][] = ['tl_real_estate_google_geodata', 'storeGeoData'];
 }
 
 /**
@@ -17,15 +26,15 @@ if(ContaoEstateManager\GoogleGeodata\AddonManager::valid()) {
  *
  * @author Fabian Ekert <https://github.com/eki89>
  */
-class tl_real_estate_google_geodata extends Contao\Backend
+class tl_real_estate_google_geodata extends Backend
 {
     /**
-     * @param Contao\DataContainer
+     * @param DataContainer $dc
      */
-    public function storeGeoData($dc)
+    public function storeGeoData($dc): void
     {
         // Front end call
-        if (!$dc instanceof Contao\DataContainer)
+        if (!$dc instanceof DataContainer)
         {
             return;
         }
@@ -41,17 +50,18 @@ class tl_real_estate_google_geodata extends Contao\Backend
             return;
         }
 
-        $objGeoData = new ContaoEstateManager\GoogleGeodata\GeoData();
+        $objGeoData = new GeoData();
 
         if (($geoData = $objGeoData->determineGeoData($dc->activeRecord->strasse, $dc->activeRecord->hausnummer, $dc->activeRecord->plz, $dc->activeRecord->ort)) !== false)
         {
-            $this->Database->prepare("UPDATE tl_real_estate SET breitengrad=?, laengengrad=? WHERE id=?")
-                ->execute($geoData['breitengrad'], $geoData['laengengrad'], $dc->activeRecord->id);
+            $this->Database->prepare('UPDATE tl_real_estate SET breitengrad=?, laengengrad=? WHERE id=?')
+                ->execute($geoData['breitengrad'], $geoData['laengengrad'], $dc->activeRecord->id)
+            ;
         }
     }
 
     /**
-     * Check if all address information are given
+     * Check if all address information are given.
      *
      * @param $activeRecord
      *
@@ -82,6 +92,7 @@ class tl_real_estate_google_geodata extends Contao\Backend
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         $content = curl_exec($ch);
         curl_close($ch);
+
         return $content;
     }
 }

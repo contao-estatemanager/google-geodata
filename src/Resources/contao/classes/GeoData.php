@@ -1,11 +1,14 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * This file is part of Contao EstateManager.
  *
- * @link      https://www.contao-estatemanager.com/
- * @source    https://github.com/contao-estatemanager/google-autocomplete
- * @copyright Copyright (c) 2019  Oveleon GbR (https://www.oveleon.de)
- * @license   https://www.contao-estatemanager.com/lizenzbedingungen.html
+ * @see        https://www.contao-estatemanager.com/
+ * @source     https://github.com/contao-estatemanager/google-geodata
+ * @copyright  Copyright (c) 2021 Oveleon GbR (https://www.oveleon.de)
+ * @license    https://www.contao-estatemanager.com/lizenzbedingungen.html
  */
 
 namespace ContaoEstateManager\GoogleGeodata;
@@ -14,7 +17,7 @@ use Contao\Config;
 
 class GeoData
 {
-    public function setGeoData(&$objRealEstate, $context)
+    public function setGeoData(&$objRealEstate, $context): void
     {
         if (!empty($objRealEstate->laengengrad) || !empty($objRealEstate->breitengrad))
         {
@@ -42,11 +45,11 @@ class GeoData
         }
 
         $strAddress = urlencode(sprintf('%s %s, %s %s', $strasse, $hausnummer, $plz, $ort));
-        $strUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $strAddress . '&key='.Config::get('googleApiToken');
+        $strUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$strAddress.'&key='.Config::get('googleApiToken');
 
         $arrContent = json_decode($this->getFileContent($strUrl));
 
-        if ($arrContent && $arrContent->results && is_array($arrContent->results))
+        if ($arrContent && $arrContent->results && \is_array($arrContent->results))
         {
             $breitengrad = $arrContent->results[0]->geometry->location->lat;
             $laengengrad = $arrContent->results[0]->geometry->location->lng;
@@ -56,20 +59,19 @@ class GeoData
                 return false;
             }
 
-            return array
-            (
+            return [
                 'breitengrad' => $breitengrad,
-                'laengengrad' => $laengengrad
-            );
+                'laengengrad' => $laengengrad,
+            ];
         }
 
         return false;
     }
 
     /**
-     * Check if all address information are given
+     * Check if all address information are given.
      *
-     * @param $objRealEstate
+     * @param $strasse
      *
      * @return bool
      */
@@ -98,6 +100,7 @@ class GeoData
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         $content = curl_exec($ch);
         curl_close($ch);
+
         return $content;
     }
 }

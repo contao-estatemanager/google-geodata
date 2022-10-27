@@ -23,7 +23,7 @@
     }
   ],
   "require":{
-    "php":">=7.1",
+    "php":"^7.4 || ^8.0",
     "contao/core-bundle":"^4.4",
     "contao-estatemanager/core": "^1.0",
     "contao-estatemanager/google-services": "^1.0",
@@ -31,7 +31,8 @@
     "ext-json": "*"
   },
   "require-dev": {
-    "contao/manager-plugin": "^2.0"
+    "contao/manager-plugin": "^2.0",
+    "contao/easy-coding-standard": "^3.4"
   },
   "conflict": {
     "contao/core": "*",
@@ -56,5 +57,10 @@
       "dev-main": "1.0.x-dev"
     },
     "contao-manager-plugin": "ContaoEstateManager\\GoogleGeodata\\ContaoManager\\Plugin"
+  },
+  "scripts": {
+    "cs-fixer": [
+      "vendor/bin/ecs check src/ --fix --ansi"
+    ]
   }
 }

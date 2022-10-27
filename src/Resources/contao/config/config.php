@@ -1,17 +1,24 @@
 <?php
-/**
+
+declare(strict_types=1);
+
+/*
  * This file is part of Contao EstateManager.
  *
- * @link      https://www.contao-estatemanager.com/
- * @source    https://github.com/contao-estatemanager
- * @copyright Copyright (c) 2019  Oveleon GbR (https://www.oveleon.de)
- * @license   https://www.contao-estatemanager.com/lizenzbedingungen.html
+ * @see        https://www.contao-estatemanager.com/
+ * @source     https://github.com/contao-estatemanager/google-geodata
+ * @copyright  Copyright (c) 2021 Oveleon GbR (https://www.oveleon.de)
+ * @license    https://www.contao-estatemanager.com/lizenzbedingungen.html
  */
 
 // ESTATEMANAGER
-$GLOBALS['TL_ESTATEMANAGER_ADDONS'][] = array('ContaoEstateManager\GoogleGeodata', 'AddonManager');
+$GLOBALS['TL_ESTATEMANAGER_ADDONS'][] = ['ContaoEstateManager\GoogleGeodata', 'AddonManager'];
 
-if(ContaoEstateManager\GoogleGeodata\AddonManager::valid()) {
+use ContaoEstateManager\GoogleGeodata\AddonManager;
+use ContaoEstateManager\GoogleGeodata\GeoData;
+
+if (AddonManager::valid())
+{
     // Hooks
-    $GLOBALS['TL_HOOKS']['beforeRealEstateImport'][] = array('ContaoEstateManager\GoogleGeodata\GeoData', 'setGeoData');
+    $GLOBALS['TL_HOOKS']['beforeRealEstateImport'][] = [GeoData::class, 'setGeoData'];
 }
